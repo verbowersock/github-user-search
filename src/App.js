@@ -10,6 +10,8 @@ const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  min-height: 100vh;
+  position: relative;
 }`;
 
 function App() {
@@ -49,7 +51,9 @@ function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setPageCount(Math.ceil(data.total_count / 30));
+        setPageCount(
+          Math.ceil(data.total_count > 1000 ? 1000 / 30 : data.total_count / 30)
+        );
         initUsers = data.items;
         setTotalCount(data.total_count);
         data.items.forEach((user) => {
@@ -78,9 +82,8 @@ function App() {
 
   const handlePageChange = (selectedObject) => {
     setCurrentPage(selectedObject.selected + 1);
-    console.log(selectedObject.selected);
   };
-
+  console.log(pageCount);
   return (
     <AppContainer>
       <Header onSearch={onSearchSubmit} />
@@ -92,6 +95,7 @@ function App() {
         onPageChange={handlePageChange}
         pageCount={pageCount}
       />
+      <Footer />
     </AppContainer>
   );
 }

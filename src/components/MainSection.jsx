@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { ThreeDots } from "react-loader-spinner";
 import { PRIMARY, SECONDARY } from "../Constants";
-import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import UserInfo from "./UserInfo";
 
