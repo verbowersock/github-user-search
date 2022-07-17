@@ -1,24 +1,92 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from "styled-components";
+
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import MainSection from "./components/MainSection";
+import { useEffect, useState } from "react";
+import { SEARCH_API_URL, USER_API_URL } from "./Constants";
+
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}`;
 
 function App() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [profiles, setProfiles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [pageCount, setPageCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState();
+
+  const token = process.env.REACT_APP_TOKEN;
+
+  const onSearchSubmit = (val) => {
+    setSearchTerm(val);
+  };
+
+  useEffect(() => {
+    if (searchTerm !== "") {
+      setLoading(true);
+      setProfiles([]);
+      setTotalCount();
+      getSearchResults(currentPage);
+    }
+  }, [searchTerm, currentPage]);
+
+  const getSearchResults = async (val) => {
+    let initUsers = [];
+    fetch(`${SEARCH_API_URL}?q=${searchTerm}&page=${val}`, {
+      headers: { Authorization: `bearer ${token}` },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setPageCount(Math.ceil(data.total_count / 30));
+        initUsers = data.items;
+        setTotalCount(data.total_count);
+        data.items.forEach((user) => {
+          fetch(`${USER_API_URL}${user.login}`, {
+            headers: {
+              Authorization: `bearer ${token}`,
+            },
+          })
+            .then((response) => response.json())
+            .then((userData) => {
+              let fetchedUsers = initUsers.map((user) =>
+                user.id === userData.id ? Object.assign(user, userData) : user
+              );
+              setProfiles(fetchedUsers);
+            });
+        });
+
+        setLoading(false);
+        setError(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        setError(error);
+      });
+  };
+
+  const handlePageChange = (selectedObject) => {
+    setCurrentPage(selectedObject.selected);
+    getSearchResults(currentPage);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContainer>
+      <Header onSearch={onSearchSubmit} />
+      <MainSection
+        isLoading={loading}
+        data={profiles}
+        error={error}
+        totalCount={totalCount}
+        onPageChange={handlePageChange}
+        pageCount={pageCount}
+      />
+    </AppContainer>
   );
 }
 
