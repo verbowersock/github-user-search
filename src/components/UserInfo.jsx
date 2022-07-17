@@ -37,6 +37,7 @@ const Avatar = styled.div`
 
 const Location = styled.div`
   height: 50px;
+  width: 120px;
   display: flex;
   justify-items: center;
 `;
