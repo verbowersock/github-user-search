@@ -91,8 +91,6 @@ function UserInfo({ user }) {
     public_repos,
   } = user;
 
-  console.log(name);
-
   const handleProfileClick = () => {
     window.open(html_url);
   };
@@ -122,7 +120,7 @@ function UserInfo({ user }) {
           {followers}
           &nbsp;followers |&nbsp;{following}
           &nbsp;following |&nbsp;{public_repos}
-          &nbsp;&nbsp;public repos
+          &nbsp;public repos
         </StatsContainer>
       </RightColumn>
     </UserInfoContainer>

@@ -32,13 +32,19 @@ function App() {
       setLoading(true);
       setProfiles([]);
       setTotalCount();
-      getSearchResults(currentPage);
+      getSearchResults();
     }
-  }, [searchTerm, currentPage]);
+  }, [searchTerm]);
 
-  const getSearchResults = async (val) => {
+  useEffect(() => {
+    if (searchTerm !== "") {
+      getSearchResults();
+    }
+  }, [currentPage]);
+
+  const getSearchResults = async () => {
     let initUsers = [];
-    fetch(`${SEARCH_API_URL}?q=${searchTerm}&page=${val}`, {
+    fetch(`${SEARCH_API_URL}?q=${searchTerm}&page=${currentPage}`, {
       headers: { Authorization: `bearer ${token}` },
     })
       .then((response) => response.json())
@@ -71,8 +77,8 @@ function App() {
   };
 
   const handlePageChange = (selectedObject) => {
-    setCurrentPage(selectedObject.selected);
-    getSearchResults(currentPage);
+    setCurrentPage(selectedObject.selected + 1);
+    console.log(selectedObject.selected);
   };
 
   return (

@@ -74,7 +74,6 @@ function MainSection({
   pageCount,
   totalCount,
 }) {
-  console.log("data", data.length);
   const handlePageClick = (obj) => {
     onPageChange(obj);
   };
