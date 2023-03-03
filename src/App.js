@@ -10,7 +10,7 @@ const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   position: relative;
 }`;
 
@@ -42,7 +42,7 @@ function App() {
     if (searchTerm !== "") {
       getSearchResults();
     }
-  }, [currentPage]);
+  }, [currentPage, searchTerm]);
 
   const getSearchResults = async () => {
     let initUsers = [];

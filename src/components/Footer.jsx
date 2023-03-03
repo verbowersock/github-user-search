@@ -18,7 +18,7 @@ const Copy = styled.h3`
 function Footer() {
   return (
     <FooterWrapper>
-      <Copy>&copy;Veronika Kavun 2022</Copy>
+      <Copy>&copy;Veronika Bowersock 2022 veronikabowersock@gmail.com</Copy>
     </FooterWrapper>
   );
 }
