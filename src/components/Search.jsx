@@ -31,13 +31,31 @@ const SearchButton = styled.button`
   cursor: pointer;
 `;
 
+const ErrorText = styled.p`
+  color: white;
+  font-size: 0.8em;
+  margin: 0 30px;
+  padding: 0;
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+`;
+
 function Search({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [error, setError] = useState(false);
 
   function handleSubmit(e) {
+    if (searchTerm === "") {
+      e.preventDefault();
+      setError(true);
+      return;
+    }
     e.preventDefault();
     onSearch(searchTerm);
     e.target[0].value = "";
+    setSearchTerm("");
+    setError(false);
   }
 
   return (
@@ -49,6 +67,7 @@ function Search({ onSearch }) {
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Find a user"
         />
+        {error && <ErrorText>Please enter a search term</ErrorText>}
         <SearchButton>
           <SearchIcon type="submit"></SearchIcon>
         </SearchButton>
