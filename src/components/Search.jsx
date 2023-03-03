@@ -28,6 +28,7 @@ const SearchButton = styled.button`
   position: absolute;
   right: 0px;
   padding: 10px;
+  cursor: pointer;
 `;
 
 function Search({ onSearch }) {

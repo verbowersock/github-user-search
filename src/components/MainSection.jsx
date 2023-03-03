@@ -52,7 +52,7 @@ const ListContainer = styled.div`
   padding: 30px;
   display: flex;
   flex-direction: column;
-  margin: 20px 160px;
+  margin: 0px 160px 20px;
 `;
 
 const Total = styled.h4`

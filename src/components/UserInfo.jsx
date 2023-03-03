@@ -8,6 +8,7 @@ const UserInfoContainer = styled.div`
   flex-direction: row;
   border-bottom: 1px solid ${SECONDARY};
   padding: 10px;
+  cursor: pointer;
 `;
 
 const LeftColumn = styled.div`
